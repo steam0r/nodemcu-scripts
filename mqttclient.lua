@@ -117,7 +117,7 @@ function module.start()
     m:connect(
         G.config.MQTT.host,
         G.config.MQTT.port,
-        0, -- non-secure
+        false, -- non-secure
         0, -- autoreconnect NOT RECOMMENDED
         on_connect,
         on_error

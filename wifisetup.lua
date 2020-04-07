@@ -2,6 +2,7 @@
 -- Configures the WiFi
 --
 local module = {}
+local timer
 
 local callback = function() end -- the function run once the WiFi is up
 
@@ -14,7 +15,7 @@ local function checkWiFi()
   if wifi.sta.getip()== nil then
     print("IP unavailable, Waiting...")
   else
-    tmr.stop(1)
+    timer:stop(1)
     print("\n====================================")
     print("ESP8266 mode is: " .. wifi.getmode())
     print("MAC address is: " .. wifi.ap.getmac())
@@ -35,7 +36,8 @@ function module.waitThen(cb)
   wifi.sta.sethostname(G.config.SELF)
   wifi.sta.config(G.config.WIFI)
   wifi.sta.sleeptype(wifi.NONE_SLEEP)
-  tmr.alarm(1, 2500, tmr.ALARM_AUTO, checkWiFi)
+	timer = tmr.create()
+  timer:alarm(2500, tmr.ALARM_AUTO, checkWiFi)
 end
 
 return module
